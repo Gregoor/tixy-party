@@ -96,20 +96,8 @@ function buildCallback(code: string) {
 
 const BUTTON_BORDER_STYLE = "1px solid white";
 
-function App() {
-  const [enteredCode, setEnteredCode] = useState("");
+function TixyCanvas({ code }: { code: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  const code = (
-    enteredCode ||
-    DEFAULT_CODES[Math.floor(DEFAULT_CODES.length * Math.random())]
-  )
-    .replaceAll(" ", "")
-    .split("")
-    .map((char) =>
-      ["+", "-", "*", "/", "%"].includes(char) ? ` ${char} ` : char
-    )
-    .join("");
 
   useEffect(() => {
     const canvas = canvasRef.current!;
@@ -136,6 +124,28 @@ function App() {
   }, [code]);
 
   return (
+    <canvas
+      ref={canvasRef}
+      style={{ width: SIZE + "px", height: SIZE + "px" }}
+    />
+  );
+}
+
+function App() {
+  const [enteredCode, setEnteredCode] = useState("");
+
+  const code = (
+    enteredCode ||
+    DEFAULT_CODES[Math.floor(DEFAULT_CODES.length * Math.random())]
+  )
+    .replaceAll(" ", "")
+    .split("")
+    .map((char) =>
+      ["+", "-", "*", "/", "%"].includes(char) ? ` ${char} ` : char
+    )
+    .join("");
+
+  return (
     <div
       style={{
         margin: "0 auto",
@@ -147,10 +157,7 @@ function App() {
         gap: 20,
       }}
     >
-      <canvas
-        ref={canvasRef}
-        style={{ width: SIZE + "px", height: SIZE + "px" }}
-      />
+      <TixyCanvas code={code} />
 
       <div
         style={{
