@@ -1,7 +1,8 @@
 {
   "name": "tixy-party",
   "scripts": {
-    "build": "cd client && pnpm run build"
+    "build": "cd client && pnpm run build && cd ../server && pnpm run build",
+    "serve": "cd server && pnpm run serve"
   },
   "devDependencies": {
     "prettier": "^2.6.2"

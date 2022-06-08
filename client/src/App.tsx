@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { DPR_SIZE, renderGrid, SIZE } from "./render-grid";
 import { createRouter } from "@swan-io/chicane";
 
-const PUBSUB_HOST = "ws://localhost:4000";
+const PUBSUB_HOST =
+  (window.location.protocol === "https:" ? "wss://" : "ws://") +
+  window.location.host;
 const DEFAULT_CODES = [
   "sin(t)",
   "sin(y / 8 + t)",

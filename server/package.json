@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "dev": "ts-node-dev index.ts"
+    "dev": "ts-node-dev index.ts",
+    "build": "tsc",
+    "serve": "node index.js"
   },
   "dependencies": {
     "express": "^4.18.1",
