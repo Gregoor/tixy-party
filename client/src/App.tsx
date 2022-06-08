@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { DPR_SIZE, renderGrid, SIZE } from "./render-grid";
+import { createRouter } from "@swan-io/chicane";
 
+const PUBSUB_HOST = "ws://localhost:4000";
 const DEFAULT_CODES = [
   "sin(t)",
   "sin(y / 8 + t)",
@@ -46,7 +48,7 @@ const CLEAR: ButtonDef = {
 
 const buttonRows: (string | number | ButtonDef)[][] = [
   ["x", "y", CLEAR, BACKSPACE],
-  ["", RAND, TIME, "%"],
+  ["i", RAND, TIME, "%"],
   [SIN, COS, TAN, ATAN],
   [7, 8, 9, "*"],
   [4, 5, 6, "-"],
@@ -96,6 +98,17 @@ function buildCallback(code: string) {
 
 const BUTTON_BORDER_STYLE = "1px solid white";
 
+function Credits() {
+  return (
+    <div style={{ color: "lightgrey" }}>
+      Credits to{" "}
+      <a href="https://tixy.land/" target="_blank">
+        tixy.land
+      </a>
+    </div>
+  );
+}
+
 function TixyCanvas({ code }: { code: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -131,7 +144,7 @@ function TixyCanvas({ code }: { code: string }) {
   );
 }
 
-function App() {
+function Editor() {
   const [enteredCode, setEnteredCode] = useState("");
 
   const code = (
@@ -227,15 +240,87 @@ function App() {
           </div>
         ))}
       </div>
-
-      <div style={{ color: "lightgrey" }}>
-        Credits to{" "}
-        <a href="https://tixy.land/" target="_blank">
-          tixy.land
-        </a>
+      <div style={{ width: "100%", maxWidth: 250 }}>
+        <button
+          style={{
+            marginLeft: -1,
+            marginTop: -1,
+            border: BUTTON_BORDER_STYLE,
+            padding: 0,
+            width: "100%",
+            fontSize: 20,
+            color: "white",
+            background: "none",
+          }}
+          onClick={() => {
+            const ws = new WebSocket(PUBSUB_HOST + "/pub");
+            ws.addEventListener("open", () => {
+              ws.send(code);
+            });
+          }}
+        >
+          SEND
+        </button>
       </div>
+      <Credits />
     </div>
   );
+}
+
+function Screen() {
+  const [code, setCode] = useState("");
+  useEffect(() => {
+    const ws = new WebSocket(PUBSUB_HOST + "/sub");
+    ws.addEventListener("message", async (event) => {
+      const newcode = await event.data.text();
+      console.log("got new code: " + newcode);
+      setCode(newcode);
+    });
+    return () => {
+      ws.close();
+    };
+  });
+  return (
+    <div
+      style={{
+        margin: "0 auto",
+        padding: 10,
+        maxWidth: 300,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 20,
+      }}
+    >
+      <TixyCanvas code={code} />
+
+      <div
+        style={{
+          fontSize: 20,
+          color: "grey",
+        }}
+      >
+        {code}
+      </div>
+      <Credits />
+    </div>
+  );
+}
+
+const Router = createRouter({
+  Editor: "/",
+  Screen: "/screen",
+});
+
+function App() {
+  const route = Router.useRoute(["Editor", "Screen"]);
+  if (!route) return <h1>404</h1>;
+  switch (route.name) {
+    case "Editor":
+      return <Editor />;
+    case "Screen":
+      return <Screen />;
+  }
 }
 
 export default App;
