@@ -24,7 +24,9 @@ wssPublish.on("connection", (socket) => {
 });
 
 const app = express();
-app.use('/', express.static("../client/dist"));
+["/", "/screen"].forEach((r) => {
+  app.use(r, express.static("../client/dist"));
+});
 app.listen(PORT).on("upgrade", (request, socket, head) => {
   if (request.url == "/sub") {
     wssSubscribe.handleUpgrade(request, socket, head, (socket) => {
