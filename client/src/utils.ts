@@ -28,8 +28,8 @@ export function buildCallback(code: string) {
 }
 
 const routes = {
-  editor: "/",
-  screen: "/screen",
+  editor: "/?:code",
+  screen: "/screen?:code",
 } as const;
 export const routeNames = Object.keys(routes) as (keyof typeof routes)[];
 

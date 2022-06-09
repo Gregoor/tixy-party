@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import { Credits } from "./Credits";
 import { TixyCanvas } from "./TixyCanvas";
-import { getRandomDefaultCode, PUBSUB_HOST } from "./utils";
+import { getRandomDefaultCode, PUBSUB_HOST, Router } from "./utils";
 
-export function Screen() {
-  const [code, setCode] = useState(getRandomDefaultCode);
+export function Screen({ code }: { code?: string }) {
+  code ??= getRandomDefaultCode();
   useEffect(() => {
     let ws: WebSocket | null = null;
     function connect() {
@@ -14,7 +14,7 @@ export function Screen() {
       ws.addEventListener("message", async (event) => {
         const newCode = await event.data.text();
         console.log("got new code: " + newCode);
-        setCode(newCode);
+        Router.replace("screen", { code: newCode });
       });
       ws.addEventListener("close", () => {
         setTimeout(() => {
@@ -45,7 +45,12 @@ export function Screen() {
         gap: 20,
       }}
     >
-      <TixyCanvas code={code} />
+      <TixyCanvas
+        code={code}
+        onClick={() => {
+          Router.replace("editor", { code });
+        }}
+      />
 
       <div
         style={{

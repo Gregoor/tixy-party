@@ -10,9 +10,9 @@ function App() {
   if (!route) return <h1>404</h1>;
   switch (route.name) {
     case "editor":
-      return <EditorWithContext />;
+      return <EditorWithContext code={route.params.code ?? ""} />;
     case "screen":
-      return <Screen />;
+      return <Screen code={route.params.code} />;
   }
 }
 
