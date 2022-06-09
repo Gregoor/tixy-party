@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useLongPress } from "use-long-press";
+import React, { useRef } from "react";
+import { LongPressDetectEvents, useLongPress } from "use-long-press";
 
 export const BUTTON_BORDER_STYLE = "1px solid white";
 
@@ -15,22 +15,27 @@ export function Button({
   style?: any;
 }) {
   const THRESHOLD = 300;
-  const [pressStart, setPressStart] = useState<number | null>(null);
+  const pressStartRef = useRef<number | null>(null);
   const bindLongPress = useLongPress(
     () => {
       onLongPress?.();
-      setPressStart(null);
+      pressStartRef.current = null;
     },
     {
+      // still works on touch, but does not trigger twice, like "both" does
+      detect: LongPressDetectEvents.MOUSE,
       threshold: THRESHOLD,
       onStart() {
-        setPressStart(Date.now());
+        pressStartRef.current = Date.now();
       },
       onCancel() {
-        if (pressStart && Date.now() - pressStart < THRESHOLD) {
+        if (
+          pressStartRef.current &&
+          Date.now() - pressStartRef.current < THRESHOLD
+        ) {
           onClick();
         }
-        setPressStart(null);
+        pressStartRef.current = null;
       },
     }
   );
