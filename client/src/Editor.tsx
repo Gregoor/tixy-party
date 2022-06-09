@@ -1,20 +1,14 @@
 import React, { useContext, useMemo, useState } from "react";
 
 import { TixyCanvas } from "./TixyCanvas";
-import { buildCallback, PUBSUB_HOST } from "./utils";
+import {
+  buildCallback,
+  getRandomDefaultCode,
+  PUBSUB_HOST,
+  Router,
+} from "./utils";
 import { Button, BUTTON_BORDER_STYLE } from "./Button";
 import { Credits } from "./Credits";
-
-const DEFAULT_CODES = [
-  "sin(t)",
-  "sin(y / 8 + t)",
-  "cos(t + i + x * y)",
-  "(x - y) - sin(t) * 16",
-  "(x - y) / 24 - sin(t)",
-  "sin(t * 5) * tan(t * 7)",
-  "1 / 32 * tan(t / 64 * x * tan(i - x))",
-  "sin(2 * atan((y - 7.5) / (x - 7.5)) + 5 * t)",
-];
 
 type Cursor = number;
 type State = { code: string; cursor: Cursor };
@@ -129,10 +123,7 @@ function Editor() {
 
   const code = useMemo(
     () =>
-      (
-        enteredCode ||
-        DEFAULT_CODES[Math.floor(DEFAULT_CODES.length * Math.random())]
-      )
+      (enteredCode || getRandomDefaultCode())
         .replaceAll(" ", "")
         .split("")
         .map((char) =>
@@ -159,7 +150,12 @@ function Editor() {
         gap: 20,
       }}
     >
-      <TixyCanvas code={code} />
+      <TixyCanvas
+        code={code}
+        onClick={() => {
+          Router.push("screen");
+        }}
+      />
 
       <div
         style={{

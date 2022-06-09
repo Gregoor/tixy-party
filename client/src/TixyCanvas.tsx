@@ -4,7 +4,13 @@ import { Rect, useRect } from "react-use-rect";
 import { DPR, getIntSize, renderGrid } from "./render-grid";
 import { buildCallback } from "./utils";
 
-export function TixyCanvas({ code }: { code: string }) {
+export function TixyCanvas({
+  code,
+  onClick,
+}: {
+  code: string;
+  onClick?: () => void;
+}) {
   const [rect, setRect] = useState<Rect | null>(null);
   const [rectRef] = useRect(setRect);
 
@@ -50,6 +56,7 @@ export function TixyCanvas({ code }: { code: string }) {
         justifyContent: "center",
         alignItems: "center",
       }}
+      onClick={onClick}
     >
       <canvas
         ref={canvasRef}

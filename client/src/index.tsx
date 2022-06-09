@@ -1,22 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createRouter } from "@swan-io/chicane";
 
 import { EditorWithContext } from "./Editor";
 import { Screen } from "./Screen";
-
-const Router = createRouter({
-  Editor: "/",
-  Screen: "/screen",
-});
+import { routeNames, Router } from "./utils";
 
 function App() {
-  const route = Router.useRoute(["Editor", "Screen"]);
+  const route = Router.useRoute(routeNames);
   if (!route) return <h1>404</h1>;
   switch (route.name) {
-    case "Editor":
+    case "editor":
       return <EditorWithContext />;
-    case "Screen":
+    case "screen":
       return <Screen />;
   }
 }

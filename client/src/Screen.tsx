@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import { Credits } from "./Credits";
 import { TixyCanvas } from "./TixyCanvas";
-import { PUBSUB_HOST } from "./utils";
+import { getRandomDefaultCode, PUBSUB_HOST } from "./utils";
 
 export function Screen() {
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(getRandomDefaultCode);
   useEffect(() => {
     let ws: WebSocket | null = null;
     function connect() {
