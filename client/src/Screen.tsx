@@ -12,9 +12,9 @@ export function Screen() {
       ws?.close();
       ws = new WebSocket(PUBSUB_HOST + "/sub");
       ws.addEventListener("message", async (event) => {
-        const newcode = await event.data.text();
-        console.log("got new code: " + newcode);
-        setCode(newcode);
+        const newCode = await event.data.text();
+        console.log("got new code: " + newCode);
+        setCode(newCode);
       });
       ws.addEventListener("close", () => {
         setTimeout(() => {
@@ -22,9 +22,7 @@ export function Screen() {
         }, 500);
       });
       ws.addEventListener("error", () => {
-        setTimeout(() => {
-          connect();
-        }, 500);
+        ws?.close();
       });
     }
 

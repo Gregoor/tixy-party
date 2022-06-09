@@ -41,7 +41,7 @@ const DEFAULT_CODES = [
   "cos(t + i + x * y)",
   "(x - y) - sin(t) * 16",
   "(x - y) / 24 - sin(t)",
-  "sin(t * 5) * tan(t * 7)",
+  "sin(t / 2) * tan(t / 4)",
   "1 / 32 * tan(t / 64 * x * tan(i - x))",
   "sin(2 * atan((y - 7.5) / (x - 7.5)) + 5 * t)",
 ];
