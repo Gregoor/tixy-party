@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tixy Party</title>
     <style>html, body { margin: 0; background: black; font-family: monospace; }</style>
+    <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=String.prototype.replaceAll"></script>
   </head>
   <body>
     <div id="root"></div>
+    <script>window.onerror = function(message,_1,_2,_3,error) {alert(message.toString() + '\n' + error.stack)}</script>
     <script type="module" src="/src/index.tsx"></script>
   </body>
 </html>
