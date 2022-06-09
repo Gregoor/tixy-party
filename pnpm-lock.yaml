@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 importers:
 
@@ -17,7 +17,9 @@ importers:
       '@vitejs/plugin-react': ^1.3.2
       react: ^18.1.0
       react-dom: ^18.1.0
+      react-use-rect: ^2.0.4
       typescript: ^4.4.2
+      use-long-press: ^2.0.2
       vite: ^2.9.10
     dependencies:
       '@swan-io/chicane': 1.2.0_react@18.1.0
@@ -26,7 +28,9 @@ importers:
       '@types/react-dom': 18.0.5
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
+      react-use-rect: 2.0.4_react@18.1.0
       typescript: 4.7.3
+      use-long-press: 2.0.2_react@18.1.0
     devDependencies:
       '@vitejs/plugin-react': 1.3.2
       vite: 2.9.10
@@ -1415,6 +1419,14 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /react-use-rect/2.0.4_react@18.1.0:
+    resolution: {integrity: sha512-U0MyT5le01P83t/G37t+Z36lafKEl5icCM1M9V4ubt5+kgczllyd5xWNH4Ahxn+CzMs6mnTypZ+XwpFbE045XA==}
+    peerDependencies:
+      react: ^17.0.2 || ^18.0.0
+    dependencies:
+      react: 18.1.0
+    dev: false
+
   /react/18.1.0:
     resolution: {integrity: sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ==}
     engines: {node: '>=0.10.0'}
@@ -1675,6 +1687,15 @@ packages:
   /unpipe/1.0.0:
     resolution: {integrity: sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw=}
     engines: {node: '>= 0.8'}
+    dev: false
+
+  /use-long-press/2.0.2_react@18.1.0:
+    resolution: {integrity: sha512-zQ4sujilCykA7fSZ+m2gDuGw5aW3Gm3M4pulRH4e8c4mGXw8MDQIMthCsHiolxpt/hCe/BbIvd/iDn9XNDzkYg==}
+    engines: {node: '>=10', npm: '>=5'}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.1.0
     dev: false
 
   /use-sync-external-store/1.1.0_react@18.1.0:
