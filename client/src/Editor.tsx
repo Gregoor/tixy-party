@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 
 import { TixyCanvas } from "./TixyCanvas";
 import {
@@ -103,6 +103,32 @@ const DEFAULT_GRID: ButtonGrid = [
   [0, ".", "(", ")"],
 ];
 
+const useIsValidCode = (code: string) =>
+  useMemo(() => Boolean(buildCallback(code)), [code]);
+
+function useCodeHistory(code: string) {
+  const STORE_KEY = "code-history";
+  const isCodeValid = useIsValidCode(code);
+  const [storedItems, setStoredItems] = useState(() => {
+    const storedValue = localStorage.getItem(STORE_KEY);
+    if (!storedValue) {
+      return [];
+    }
+    return JSON.parse(storedValue) as string[];
+  });
+
+  useEffect(() => {
+    if (!isCodeValid || !code) {
+      return;
+    }
+    const newStoredItems = Array.from(new Set(storedItems).add(code));
+    localStorage.setItem(STORE_KEY, JSON.stringify(newStoredItems));
+    setStoredItems(newStoredItems);
+  }, [code, isCodeValid]);
+
+  return storedItems;
+}
+
 function runAction(def: ButtonCell | ButtonDef, code: string) {
   return typeof def == "object"
     ? "do" in def
@@ -120,6 +146,7 @@ const getCellLabel = (cell: ButtonCell | ButtonDef) =>
 function Editor() {
   const { menu, setMenu } = useContext(MenuContext);
   const [enteredCode, setEnteredCode] = useState("");
+  const [showHistory, setShowHistory] = useState(false);
 
   const code = useMemo(
     () =>
@@ -133,9 +160,48 @@ function Editor() {
     [enteredCode]
   );
 
-  const isCodeValid = useMemo(() => Boolean(buildCallback(code)), [code]);
+  const isCodeValid = useIsValidCode(code);
+  const codeHistory = useCodeHistory(enteredCode);
 
   const rows = menu ?? DEFAULT_GRID;
+
+  if (showHistory) {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <button
+          onClick={() => {
+            setShowHistory(false);
+          }}
+        >
+          Back
+        </button>
+        {[code, ...codeHistory].map((code, i) => (
+          <div
+            key={i}
+            style={{
+              borderBottom: "1px solid darkgrey",
+              margin: 5,
+              padding: 10,
+            }}
+            onClick={() => {
+              setEnteredCode(code);
+              setShowHistory(false);
+            }}
+          >
+            <TixyCanvas code={code} />
+            <div
+              style={{
+                fontSize: 20,
+                color: "grey",
+              }}
+            >
+              {code}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div
@@ -159,16 +225,21 @@ function Editor() {
 
       <div
         style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
           fontSize: 20,
           color: enteredCode ? (isCodeValid ? "white" : "orange") : "grey",
+          cursor: "pointer",
         }}
         onClick={() => {
-          if (!enteredCode) {
-            setEnteredCode(code);
-          }
+          setShowHistory(true);
         }}
       >
         {code}
+        {codeHistory.length > 1 && (
+          <span style={{ paddingLeft: 5, color: "darkgrey" }}>▾</span>
+        )}
       </div>
 
       <div style={{ width: "100%", maxWidth: 250 }}>
