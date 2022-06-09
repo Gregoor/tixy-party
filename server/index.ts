@@ -1,5 +1,6 @@
 import * as express from "express";
 import * as ws from "ws";
+import * as path from "path";
 
 const PORT = 4000;
 
@@ -24,9 +25,7 @@ wssPublish.on("connection", (socket) => {
 });
 
 const app = express();
-["/", "/screen"].forEach((r) => {
-  app.use(r, express.static("../client/dist"));
-});
+app.use(express.static(path.join("..", "client", "dist")));
 app.listen(PORT).on("upgrade", (request, socket, head) => {
   if (request.url == "/sub") {
     wssSubscribe.handleUpgrade(request, socket, head, (socket) => {
