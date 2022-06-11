@@ -10,7 +10,7 @@ export function Screen({ code }: { code?: string }) {
     let ws: WebSocket | null = null;
     function connect() {
       ws?.close();
-      ws = new WebSocket(PUBSUB_HOST + "/sub");
+      ws = new WebSocket(PUBSUB_HOST + "/sub?topic=asd");
       ws.addEventListener("message", async (event) => {
         const newCode = await event.data.text();
         console.log("got new code: " + newCode);
