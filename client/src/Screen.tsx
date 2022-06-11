@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import QRCode from "react-qr-code";
 
 import { Credits } from "./Credits";
 import { TixyCanvas } from "./TixyCanvas";
@@ -32,6 +33,7 @@ export function Screen({ code }: { code?: string }) {
       ws?.close();
     };
   });
+
   return (
     <div
       style={{
@@ -61,6 +63,21 @@ export function Screen({ code }: { code?: string }) {
         {code}
       </div>
       <Credits />
+
+      <div
+        style={{
+          position: "absolute",
+          right: 0,
+          bottom: 0,
+        }}
+      >
+        <QRCode
+          value={location.protocol + "//" + location.host + Router.editor()}
+          size={128}
+          fgColor="black"
+          bgColor="#F24"
+        />
+      </div>
     </div>
   );
 }
