@@ -268,6 +268,8 @@ function Editor({ code }: { code: string }) {
             color: code ? (isCodeValid ? "white" : "orange") : "grey",
             background: "transparent",
             resize: "none",
+            textAlign: "center",
+            fontFamily: "monospace",
           }}
         />
         {codeHistory.length > 1 && (
