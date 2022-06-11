@@ -96,11 +96,11 @@ const CLEAR = RootButton({
 
 const DEFAULT_GRID: ButtonGrid = [
   [Constants, Functions, CLEAR, DELETE],
-  ["", "", MODULO, DIVIDE],
+  ["(", ")", MODULO, DIVIDE],
   [7, 8, 9, "*"],
   [4, 5, 6, "-"],
   [1, 2, 3, "+"],
-  [0, ".", "(", ")"],
+  [0, "."],
 ];
 
 const useIsValidCode = (code: string) =>
@@ -292,7 +292,19 @@ function Editor({ code }: { code: string }) {
                 </Button>
               );
             })}
-            <br />
+            {i == rows.length - 1 && !menu && (
+              <Button
+                style={{ width: "200%", aspectRatio: "2 / 1" }}
+                onClick={() => {
+                  const ws = new WebSocket(PUBSUB_HOST + "/pub?topic=asd");
+                  ws.addEventListener("open", () => {
+                    ws.send(shownCode);
+                  });
+                }}
+              >
+                🚀
+              </Button>
+            )}
           </div>
         ))}
         {menu && (
@@ -305,26 +317,6 @@ function Editor({ code }: { code: string }) {
             ❌
           </Button>
         )}
-      </div>
-      <div style={{ width: "100%" }}>
-        <button
-          style={{
-            border: BUTTON_BORDER_STYLE,
-            padding: 0,
-            width: "100%",
-            fontSize: 20,
-            color: "white",
-            background: "none",
-          }}
-          onClick={() => {
-            const ws = new WebSocket(PUBSUB_HOST + "/pub?topic=asd");
-            ws.addEventListener("open", () => {
-              ws.send(shownCode);
-            });
-          }}
-        >
-          SEND
-        </button>
       </div>
       <Credits />
     </div>

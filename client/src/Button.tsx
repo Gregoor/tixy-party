@@ -13,6 +13,7 @@ export function Button({
 }) {
   return (
     <button
+      type="button"
       onClick={onClick}
       style={{
         marginBottom: 0,
