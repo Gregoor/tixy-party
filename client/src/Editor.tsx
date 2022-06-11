@@ -317,7 +317,7 @@ function Editor({ code }: { code: string }) {
             background: "none",
           }}
           onClick={() => {
-            const ws = new WebSocket(PUBSUB_HOST + "/pub");
+            const ws = new WebSocket(PUBSUB_HOST + "/pub?topic=asd");
             ws.addEventListener("open", () => {
               ws.send(shownCode);
             });
