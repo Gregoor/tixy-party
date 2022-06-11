@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
+import TextareaAutosize from "react-textarea-autosize";
 
 import { TixyCanvas } from "./TixyCanvas";
 import {
@@ -254,17 +255,35 @@ function Editor({ code }: { code: string }) {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          fontSize: 20,
-          color: code ? (isCodeValid ? "white" : "orange") : "grey",
-          cursor: "pointer",
-        }}
-        onClick={() => {
-          setShowCodeGallery(true);
         }}
       >
-        {shownCode}
+        <TextareaAutosize
+          value={shownCode}
+          onChange={(event) => {
+            updateCodeParam(event.target.value);
+          }}
+          style={{
+            border: "none",
+            fontSize: 20,
+            color: code ? (isCodeValid ? "white" : "orange") : "grey",
+            background: "transparent",
+            resize: "none",
+          }}
+        />
         {codeHistory.length > 1 && (
-          <span style={{ paddingLeft: 5, color: "darkgrey" }}>▾</span>
+          <button
+            style={{
+              border: BUTTON_BORDER_STYLE,
+              paddingLeft: 5,
+              color: "darkgrey",
+              background: "none",
+            }}
+            onClick={() => {
+              setShowCodeGallery(true);
+            }}
+          >
+            ▾
+          </button>
         )}
       </div>
 

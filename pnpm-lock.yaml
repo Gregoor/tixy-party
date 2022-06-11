@@ -18,6 +18,7 @@ importers:
       react: ^18.1.0
       react-dom: ^18.1.0
       react-qr-code: ^2.0.7
+      react-textarea-autosize: ^8.3.4
       react-use-rect: ^2.0.4
       typescript: ^4.4.2
       use-long-press: ^2.0.2
@@ -30,6 +31,7 @@ importers:
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
       react-qr-code: 2.0.7_react@18.1.0
+      react-textarea-autosize: 8.3.4_cbpnieqasrszcwkqeh5i7z7nse
       react-use-rect: 2.0.4_react@18.1.0
       typescript: 4.7.3
       use-long-press: 2.0.2_react@18.1.0
@@ -1456,6 +1458,20 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /react-textarea-autosize/8.3.4_cbpnieqasrszcwkqeh5i7z7nse:
+    resolution: {integrity: sha512-CdtmP8Dc19xL8/R6sWvtknD/eCXkQr30dtvC4VmGInhRsfF8X/ihXCq6+9l9qbxmKRiq407/7z5fxE7cVWQNgQ==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@babel/runtime': 7.18.3
+      react: 18.1.0
+      use-composed-ref: 1.3.0_react@18.1.0
+      use-latest: 1.2.1_cbpnieqasrszcwkqeh5i7z7nse
+    transitivePeerDependencies:
+      - '@types/react'
+    dev: false
+
   /react-use-rect/2.0.4_react@18.1.0:
     resolution: {integrity: sha512-U0MyT5le01P83t/G37t+Z36lafKEl5icCM1M9V4ubt5+kgczllyd5xWNH4Ahxn+CzMs6mnTypZ+XwpFbE045XA==}
     peerDependencies:
@@ -1724,6 +1740,41 @@ packages:
   /unpipe/1.0.0:
     resolution: {integrity: sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw=}
     engines: {node: '>= 0.8'}
+    dev: false
+
+  /use-composed-ref/1.3.0_react@18.1.0:
+    resolution: {integrity: sha512-GLMG0Jc/jiKov/3Ulid1wbv3r54K9HlMW29IWcDFPEqFkSO2nS0MuefWgMJpeHQ9YJeXDL3ZUF+P3jdXlZX/cQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.1.0
+    dev: false
+
+  /use-isomorphic-layout-effect/1.1.2_cbpnieqasrszcwkqeh5i7z7nse:
+    resolution: {integrity: sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.0.12
+      react: 18.1.0
+    dev: false
+
+  /use-latest/1.2.1_cbpnieqasrszcwkqeh5i7z7nse:
+    resolution: {integrity: sha512-xA+AVm/Wlg3e2P/JiItTziwS7FK92LWrDB0p+hgXloIMuVCeJJ8v6f0eeHyPZaJrM+usM1FkFfbNCrJGs8A/zw==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.0.12
+      react: 18.1.0
+      use-isomorphic-layout-effect: 1.1.2_cbpnieqasrszcwkqeh5i7z7nse
     dev: false
 
   /use-long-press/2.0.2_react@18.1.0:
