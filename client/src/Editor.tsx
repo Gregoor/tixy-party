@@ -128,7 +128,7 @@ function useCodeHistory(code: string) {
     setStoredItems(newStoredItems);
   }, [code, isCodeValid]);
 
-  return storedItems;
+  return [storedItems, setStoredItems] as const;
 }
 
 function runAction(def: ButtonCell | ButtonDef, code: string) {
@@ -156,48 +156,53 @@ const formatCode = (code: string) =>
 
 const CodeGallery = ({
   shownCode,
-  codeHistory,
   onClose,
 }: {
   shownCode: string;
-  codeHistory: string[];
   onClose: (code?: string) => void;
-}) => (
-  <div style={{ textAlign: "center" }}>
-    <button
-      onClick={() => {
-        onClose();
-      }}
-    >
-      Back
-    </button>
-    {Array.from(
-      new Set([...codeHistory, shownCode].map(formatCode).reverse())
-    ).map((code, i) => (
-      <div
-        key={i}
-        style={{
-          borderBottom: "1px solid darkgrey",
-          margin: 5,
-          padding: 10,
-        }}
-        onClick={() => {
-          onClose(code);
-        }}
-      >
-        <TixyCanvas code={code} />
+}) => {
+  const [codeHistory, setCodeHistory] = useCodeHistory(shownCode);
+  return (
+    <div style={{ textAlign: "center" }}>
+      {Array.from(
+        new Set([...codeHistory, shownCode].map(formatCode).reverse())
+      ).map((code, i) => (
         <div
+          key={i}
           style={{
-            fontSize: 20,
-            color: "grey",
+            borderBottom: "1px solid darkgrey",
+            margin: 5,
+            padding: 10,
           }}
         >
-          {code}
+          <TixyCanvas
+            code={code}
+            onClick={() => {
+              onClose(code);
+            }}
+          />
+          <div
+            style={{
+              fontSize: 20,
+              color: "grey",
+            }}
+          >
+            {code}
+          </div>
+          <button
+            type="button"
+            style={{ marginTop: 10 }}
+            onClick={() => {
+              setCodeHistory(codeHistory.filter((c) => formatCode(c) !== code));
+            }}
+          >
+            Delete
+          </button>
         </div>
-      </div>
-    ))}
-  </div>
-);
+      ))}
+    </div>
+  );
+};
 
 function Editor({ code }: { code: string }) {
   const { menu, setMenu } = useContext(MenuContext);
@@ -209,7 +214,7 @@ function Editor({ code }: { code: string }) {
   );
 
   const isCodeValid = useIsValidCode(shownCode);
-  const codeHistory = useCodeHistory(code);
+  const [codeHistory] = useCodeHistory(code);
 
   const rows = menu ?? DEFAULT_GRID;
 
@@ -219,7 +224,6 @@ function Editor({ code }: { code: string }) {
     return (
       <CodeGallery
         shownCode={shownCode}
-        codeHistory={codeHistory}
         onClose={(code) => {
           if (code) {
             updateCodeParam(code);
